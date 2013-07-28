@@ -7,8 +7,19 @@ function Canvas(){
 	
 	this.canvas = document.createElement("canvas");
 	
-	this.w = this.canvas.width;
-	this.h = this.canvas.height;
+	this.__defineGetter__("width", (function(){
+		return this.canvas.width;
+	}).bind(this));
+	this.__defineSetter__("width", (function(i){
+		this.canvas.width = i;
+	}).bind(this));
+	
+	this.__defineGetter__("height", (function(){
+		return this.canvas.height;
+	}).bind(this));
+	this.__defineSetter__("height", (function(i){
+		this.canvas.height = i;
+	}).bind(this));
 	//this.canvas.tabIndex = 1;
 	//this.canvas.focus();
 	this.ctx = this.canvas.getContext("2d");
@@ -39,27 +50,13 @@ function Canvas(){
 		var aw = parseFloat(contStyle.width);
 		var ah = parseFloat(contStyle.height);
 		
-		//if(aw/this.aspectRatio > ah){
-			// aw is used to get ah, the height would be too much too fit; use ah to get aw
-			//aw = ah*this.aspectRatio;
-		//}else{
-			//ah = aw/this.aspectRatio;
-		//}
-		
 		this.canvas.width = aw;
 		this.canvas.height = ah;
 		
-		this.w = this.canvas.width;
-		this.h = this.canvas.height;
-		
 		this.canvas.style.width = "";//aw.toFixed(0)+"px";
 		this.canvas.style.height = "";//ah.toFixed(0)+"px";
-		
-		this.dispatch("resize",{w:aw,h:ah});
-		
+		this.dispatch("resize");
 	}).bind(this);
-	
-	this.canvas.addEventListener("DOMNodeInserted", this.fillContainer);
 	
 	
 	this.toggleFullscreen = (function(){
@@ -140,11 +137,8 @@ function Canvas(){
 	this.canvas.addEventListener("mouseup", (function(e){
 		this.dispatch("mouseup", e);
 	}).bind(this));
-	
-	
-	
-	window.addEventListener("resize", (function(){
-		this.fillContainer();
+	this.canvas.addEventListener("contextmenu",(function(e){
+		e.preventDefault();
 	}).bind(this));
 	
 }

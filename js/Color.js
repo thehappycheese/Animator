@@ -6,7 +6,20 @@ var color = new (function(){
 		this.r = ar || 0;
 		this.g = ag || 0;
 		this.b = ab || 0;
-		this.a = aa || 0;
+		this.a = aa || 255;
+		
+		this.r = Math.round(this.r);
+		this.g = Math.round(this.g);
+		this.b = Math.round(this.b);
+		this.a = Math.round(this.a);
+		
+		this.toString = (function(){
+			var result = ((this.r << 16) | (this.g << 8) | this.b).toString(16);
+			while(result.length<6){
+				result= "0"+result;
+			}
+			return result;
+		}).bind(this);
 	}
 	
 	this.fromAngle = (function(ang){
@@ -36,5 +49,14 @@ var color = new (function(){
 		this.fromAngle(h)
 	}).bind(this);
 	
+	this.rgbToHex = function(r, g, b) {
+		if (r > 255 || g > 255 || b > 255)
+			throw "Invalid color component";
+		var result = ((r << 16) | (g << 8) | b).toString(16);
+		while(result.length<6){
+			result= "0"+result;
+		}
+		return result;
+	}
 
 })();

@@ -3,19 +3,19 @@
 function Widget(){
 	EventDispatcher.call(this);
 	
-	this.body = document.createElement("div");
-	this.style = this.body.style;
-	this.appendChild = (this.body.appendChild).bind(this.body);
+	this.element = document.createElement("div");
+	this.style = this.element.style;
+	this.appendChild = (this.element.appendChild).bind(this.element);
 	
 	this.style.width = "100%";
 	this.style.height = "100%";
 	
 	this.container = null;
 	
-	this.placeMeIn = (function(parentId){
+	this.place = (function(parentId){
 		this.container = document.getElementById(parentId);
-		this.container.appendChild(this.body);
-		this.dispatch("DOMNodeInserted");
+		this.container.appendChild(this.element);
+		this.dispatch("placed");
 	}).bind(this);
 
 }

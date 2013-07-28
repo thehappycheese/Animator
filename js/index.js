@@ -6,4 +6,4 @@
 var pallet = new ColorPallet("leftbox");
 
 
-pallet.placeMeIn("leftbox");
+pallet.place("palletbox");
